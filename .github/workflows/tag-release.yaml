@@ -14,7 +14,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      - run: ./mvnw clean compile package
+      - run: mvn clean compile package
 
       -
         name: Get current date
