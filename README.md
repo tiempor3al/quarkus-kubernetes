@@ -18,7 +18,9 @@ The goal of the application is to test a CI/CD pipeline using GitHub Actions.
 
 The application will be deployed to a K3s Kubernetes cluster hosted on Hetzner using a master control plane and two agent nodes. 
 
-You can check the application running at [https://quarkus.enejambre.work](https://quarkus.enejambre.work).
+On K3s, ArgoCD is used to deploy the application.
+
+You can check the application running at [https://quarkus.enjambre.work](https://quarkus.enjambre.work).
 
 
 
