@@ -32,7 +32,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: src/main/docker/Dockerfile.jvm
+          context: ./src/main/docker/Dockerfile.jvm
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ github.repository_owner }}/quarkus-kubernetes:latest
           labels: |
