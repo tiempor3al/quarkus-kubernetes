@@ -36,6 +36,6 @@ jobs:
           tags: ${{ github.repository_owner }}/quarkus-kubernetes:latest
           labels: |
               org.opencontainers.image.title="Quarkus Kubernetes"
-              org.opencontainers.image.description="Quarkus application that is deployed in a docker image using a Github Action"
+              org.opencontainers.image.description="Quarkus application to test CI/CD pipeline"
               org.opencontainers.image.version=${{ github.ref_name }
               org.opencontainers.image.created=${{ steps.date_generator.outputs.date }}
