@@ -9,10 +9,12 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v4
-
       -
-        name: Compile application
-        run: ./mvnw package
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - run: ./mvnw clean compile package
 
       -
         name: Get current date
