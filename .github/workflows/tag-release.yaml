@@ -21,7 +21,7 @@ jobs:
       -
         name: Get current date
         id: date_generator
-        run: echo "date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_OUTPUT
+        run: echo "date=$(date -u +%Y-%m-%d-%H:%M:%S)" >> $GITHUB_OUTPUT
       -
         name: Login to Docker Hub
         if: github.event_name != 'pull_request'
@@ -44,4 +44,4 @@ jobs:
           file: src/main/docker/Dockerfile.jvm
           platforms: linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ github.repository_owner }}/quarkus-kubernetes:${{ steps.date_generator.outputs.date }},${{ github.repository_owner }}/quarkus-kubernetes:latest
+          tags: ${{ github.repository_owner }}/quarkus-kubernetes:v${{ steps.date_generator.outputs.date }},${{ github.repository_owner }}/quarkus-kubernetes:latest
