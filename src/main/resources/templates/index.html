@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Server Sent Events Example</title>
+    <title>Server Sent Events Demo</title>
 </head>
 <body>
-<p>Current Date from server using Mutiny:</p>
+<p>Current server date:</p>
 <p id="current-date"></p>
 
-<p>What is cool about this simple demo, is that we are using HTTP/2 to remove the limits on Server Sent Events.</p>
+<p>This demo leverages HTTP/2 powered by Traefik, so that Server Sent Events are not constrained.</p>
 <p>See: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events">https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_event</a></p>
 <script>
     const eventSource = new EventSource("/sse");
