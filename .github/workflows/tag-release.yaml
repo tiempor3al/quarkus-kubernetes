@@ -62,7 +62,7 @@ jobs:
 
           git add .
           git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
-          git push
+          git push --set-upstream origin releases
           
 
           
