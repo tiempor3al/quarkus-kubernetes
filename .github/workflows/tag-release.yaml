@@ -52,6 +52,9 @@ jobs:
           
           cd k8s_template
   
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
           # Create branch if it does not exist
           git switch -c releases --no-guess main
           git config pull.rebase false
@@ -59,9 +62,7 @@ jobs:
 
           sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" app_stack.yaml
 
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-
+         
 
           git add .
           git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
