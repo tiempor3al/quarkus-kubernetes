@@ -49,6 +49,7 @@ jobs:
 
       - name: Update template
         uses: actions/checkout@v4
+        with:
           repository: ${{ github.repository_owner }}//k3s-templates
         run: |
           
