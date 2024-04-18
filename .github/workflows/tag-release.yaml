@@ -46,9 +46,9 @@ jobs:
           platforms: linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ github.repository_owner }}/quarkus-kubernetes:v${{ steps.date_generator.outputs.date }},${{ github.repository_owner }}/quarkus-kubernetes:latest
-
-      - name: Modify the template with the current date
+      -
         uses: actions/checkout@v4
+      -
         run: |
           cd k8s_template
           sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" app_stack.yaml
