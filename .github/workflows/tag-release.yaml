@@ -52,12 +52,12 @@ jobs:
           cd k8s_template
           sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" app_stack.yaml
 
-          git config --global user.email "noreply@github.com"
-          git config --global user.name "CI/CD"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
 
           git add .
           git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
-          git push origin main
+          git push
           
 
           
