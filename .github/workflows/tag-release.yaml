@@ -49,7 +49,11 @@ jobs:
 
       - name: Update template
         run: |
+          
           cd k8s_template
+          
+          git switch releases
+          
           sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" app_stack.yaml
 
           git config user.name github-actions
@@ -57,7 +61,7 @@ jobs:
 
           git add .
           git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
-          git push
+          git push origin releases
           
 
           
