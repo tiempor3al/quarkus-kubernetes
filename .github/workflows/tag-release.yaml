@@ -48,26 +48,20 @@ jobs:
           tags: ${{ github.repository_owner }}/quarkus-kubernetes:v${{ steps.date_generator.outputs.date }},${{ github.repository_owner }}/quarkus-kubernetes:latest
 
       - name: Update template
+        uses: actions/checkout@v4
+          repository: ${{ github.repository_owner }}//k3s-templates
         run: |
           
-          cd k8s_template
+          cd quarkus
   
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          # Create branch if it does not exist
-          git switch -c releases --no-guess main
-          git config pull.rebase false
-          git pull origin releases --allow-unrelated-histories
-          git merge main
-          
           sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" app_stack.yaml
-
-         
 
           git add .
           git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
-          git push --set-upstream origin releases
+          git push 
           
 
           
