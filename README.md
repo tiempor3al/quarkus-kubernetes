@@ -17,8 +17,8 @@ You can run your application in dev mode that enables live coding using:
 This a demo application to test a CI/CD pipeline with ArgoCD. 
 
 The releases are done by the tag-release.yaml workflow (check the .github/workflows directory), where the
-template image is updated with the current version. The changes are pushed to the "releases" branch so that ArgoCD
-can monitor and update the cluster, and the main branch is not polluted by the CI/CD commit messages.
+template image is updated with the current version. The changes are pushed back to the "main" branch so that ArgoCD
+can pick them up.
 
 The docker image is pushed to https://hub.docker.com/repository/docker/tiempor3al/quarkus-kubernetes/general
 
@@ -87,8 +87,8 @@ spec:
 
 # About the annotations
 
-The K3s cluster have a cert-manager configured with Cloudflare. Since Traefik, the default loadbalancer for K3s does not automatically redirect http to https,
-a CRD (Custom Resource Definition middleware file was necessary:
+The K3s cluster have a cert-manager configured with Cloudflare. Since Traefik, the default loadbalancer for K3s, does not automatically redirect http to https,
+a CRD (Custom Resource Definition middleware file is necessary:
 
 #### redirect.yaml
 ```yaml
