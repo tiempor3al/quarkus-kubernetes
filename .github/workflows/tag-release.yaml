@@ -48,6 +48,8 @@ jobs:
           tags: ${{ github.repository_owner }}/quarkus-kubernetes:v${{ steps.date_generator.outputs.date }},${{ github.repository_owner }}/quarkus-kubernetes:latest
       -
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       -
         run: |
           cd k8s_template
