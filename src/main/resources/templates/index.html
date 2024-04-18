@@ -9,6 +9,8 @@
 
 <p>This demo leverages HTTP/2 powered by Traefik, so that Server Sent Events are not constrained.</p>
 <p>See: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events">https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_event</a></p>
+<p>Source code can be found at <a href="https://github.com/tiempor3al/quarkus-kubernetes">https://github.com/tiempor3al/quarkus-kubernetes</a></p>
+<p>Deployment yaml file is in the k8s_template directory</p>
 <script>
     const eventSource = new EventSource("/sse");
     eventSource.onmessage = function(event) {
