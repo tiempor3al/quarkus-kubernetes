@@ -106,8 +106,8 @@ spec:
     permanent: true
 ```
 
-To apply the middleware (use the namespace where Traefik is running):
+To apply the middleware on the default namespace:
 
 ```shell
- kubectl apply -n kube-system -f redirect.yaml
+ kubectl apply -f redirect.yaml
 ```
