@@ -47,15 +47,20 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ github.repository_owner }}/quarkus-kubernetes:v${{ steps.date_generator.outputs.date }},${{ github.repository_owner }}/quarkus-kubernetes:latest
 
-      - 
-        name: Update template 
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/k3s-templates
+          token: ${{ secrets.TOKEN }}
+
+      -
+        name: Update template
         run: |
           
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" k8s_template/app_stack.yaml
-
+          sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" quarkus-sse/app_stack.yaml
           git add .
           git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
           git push 
