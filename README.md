@@ -17,8 +17,8 @@ You can run your application in dev mode that enables live coding using:
 This a demo application to test a CI/CD pipeline with ArgoCD. 
 
 The releases are done by the tag-release.yaml workflow (check the .github/workflows directory), where the
-template image is updated with the current version. The changes are pushed to the another [repository](https://github.com/tiempor3al/quarkus-kubernetes) ArgoCD
-can pick them up.
+template image is updated with the current version. The changes are pushed to the another [repository](https://github.com/tiempor3al/quarkus-kubernetes) so that ArgoCD
+can pick the changes.
 
 The docker image is pushed to https://hub.docker.com/repository/docker/tiempor3al/quarkus-kubernetes/general
 
