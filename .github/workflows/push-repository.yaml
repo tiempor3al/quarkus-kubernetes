@@ -25,5 +25,4 @@ jobs:
           touch file.txt
           git add .
           git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
-          git config --unset-all http.https://github.com/.extraheader
           git push 
