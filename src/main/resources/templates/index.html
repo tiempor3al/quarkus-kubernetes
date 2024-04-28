@@ -10,8 +10,9 @@
 <p>See: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events">https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_event</a></p>
 <p>Source code can be found at <a href="https://github.com/tiempor3al/quarkus-kubernetes">https://github.com/tiempor3al/quarkus-kubernetes</a></p>
 <script>
-    const eventSource = new EventSource("/sse");
+    const eventSource = new EventSource("{endpoint}");
     eventSource.onmessage = function(event) {
+
         document.getElementById("current-date").textContent = event.data;
     };
 </script>
