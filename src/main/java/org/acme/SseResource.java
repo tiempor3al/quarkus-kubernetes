@@ -22,7 +22,7 @@ public class SseResource {
 
     private Multi<String> ticks = Multi.createFrom().ticks().every(Duration.ofSeconds(1))
             .onItem().transform(tick -> LocalDateTime.now().toString())
-            .onSubscription().invoke(() -> Log.info("Starting to emit ticks"))
+            .onSubscription().invoke(sub -> Log.info(sub.toString()))
             .onCancellation().invoke(() -> Log.info("No more ticks"))
             .broadcast()
             .withCancellationAfterLastSubscriberDeparture()
@@ -30,7 +30,7 @@ public class SseResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance index() {
-        return index.instance();
+        return index.data("endpoint","/sse");
     }
 
 
@@ -43,4 +43,7 @@ public class SseResource {
             Log.info("Removing subscriber");
         });
     }
+
+
+
 }

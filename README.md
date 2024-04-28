@@ -14,7 +14,36 @@ You can run your application in dev mode that enables live coding using:
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
 ## Purpose of the application
-This a demo application to test a CI/CD pipeline with ArgoCD. 
+This a demo application that sends server sent events with the server date. 
+
+So, what is so special? 
+
+I just think that the [Mutiny](https://smallrye.io/smallrye-mutiny/latest/guides/broadcasting-to-multiple-subscribers/) library from Smallrye that makes this happen is just beautiful:
+
+```java
+
+    private Multi<String> ticks = Multi.createFrom().ticks().every(Duration.ofSeconds(1))
+            .onItem().transform(tick -> LocalDateTime.now().toString())
+            .onSubscription().invoke(() -> Log.info("Starting to emit ticks"))
+            .onCancellation().invoke(() -> Log.info("No more ticks"))
+            .broadcast()
+            .withCancellationAfterLastSubscriberDeparture()
+            .toAtLeast(1);
+
+    @GET
+    @Path("sse")
+    @RestStreamElementType(MediaType.TEXT_PLAIN)
+    public Multi<String> see() {
+        Log.info("New subscriber");
+        return ticks.onCancellation().invoke(() -> {
+            Log.info("Removing subscriber");
+        });
+    }
+```
+That's it this all the code. It is so simple, and yet so powerful. It handles disconnections and stops broadcasting when there are no subscribers.
+
+
+## How is this been deployed?
 
 The releases are done by the tag-release.yaml workflow (check the .github/workflows directory), where the
 template image is updated with the current version. The changes are pushed to the another [repository](https://github.com/tiempor3al/quarkus-kubernetes) so that ArgoCD
