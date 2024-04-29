@@ -3,7 +3,9 @@ package org.acme;
 import io.quarkus.logging.Log;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
+import io.quarkus.runtime.configuration.ConfigUtils;
 import io.quarkus.scheduler.Scheduled;
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -12,10 +14,12 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.sse.Sse;
 import jakarta.ws.rs.sse.SseEventSink;
 import org.acme.dto.MessageInput;
+import org.acme.services.HazelcastMapService;
+import org.acme.services.IMapService;
+import org.acme.services.MockMapService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Path("/sink")
 public class SseEventSinkResource {
@@ -26,7 +30,19 @@ public class SseEventSinkResource {
     @Inject
     Sse sse;
 
-    private final Map<String, SseEventSink> clients = new ConcurrentHashMap<>();
+    @Inject
+    IMapService mapService;
+
+    @PostConstruct
+    public void init() {
+        if(ConfigUtils.isProfileActive("test") || ConfigUtils.isProfileActive("dev")){
+            Log.info("using mock service");
+            mapService = new MockMapService();
+        }else{
+            Log.info("using hazelcast service");
+            mapService = new HazelcastMapService();
+        }
+    }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -41,7 +57,7 @@ public class SseEventSinkResource {
     public void setSse(@Context SseEventSink eventSink) {
         var id = java.util.UUID.randomUUID().toString();
         Log.info("Client with id " + id + " connected");
-        clients.put(id, eventSink);
+        mapService.put(id, eventSink);
     }
 
 
@@ -54,7 +70,7 @@ public class SseEventSinkResource {
         String id = input.id();
         String message = input.message();
 
-        SseEventSink eventSink = clients.get(id);
+        SseEventSink eventSink = mapService.get(id);
         String responseMessage;
 
         if (eventSink != null) {
@@ -80,16 +96,8 @@ public class SseEventSinkResource {
 
     @Scheduled(every = "30s")
     void removeClosedConnections() {
-
         Log.info("removeClosedConnections");
-        clients.keySet().removeIf(key -> {
-            SseEventSink sseEventSink = clients.get(key);
-            if(sseEventSink.isClosed()){
-                Log.info("Removing client " + key);
-                return true;
-            }
-            return false;
-        });
+        mapService.clean();
     }
 
 }
