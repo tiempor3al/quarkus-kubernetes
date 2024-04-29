@@ -36,7 +36,9 @@ public class HazelcastMapService implements IMapService {
 
     @Override
     public void clean() {
-        map.entrySet().removeIf(entry -> entry.getValue().isClosed());
+        if(this.map != null) {
+            map.entrySet().removeIf(entry -> entry.getValue().isClosed());
+        }
     }
 
 
