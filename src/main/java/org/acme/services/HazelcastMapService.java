@@ -2,7 +2,6 @@ package org.acme.services;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -15,14 +14,7 @@ public class HazelcastMapService implements IMapService {
     @Inject
     HazelcastInstance hazelcastClient;
 
-    private IMap<String, SseEventSink> map;
-
-    @PostConstruct
-    public void init() {
-        if (hazelcastClient != null) {
-            map = hazelcastClient.getMap("sse-event-sink-map");
-        }
-    }
+    private final IMap<String, SseEventSink> map =  hazelcastClient.getMap("sse-event-sink-map");
 
     @Override
     public void put(String key, SseEventSink sseEventSink) {
@@ -36,9 +28,7 @@ public class HazelcastMapService implements IMapService {
 
     @Override
     public void clean() {
-        if(this.map != null) {
-            map.entrySet().removeIf(entry -> entry.getValue().isClosed());
-        }
+        map.entrySet().removeIf(entry -> entry.getValue().isClosed());
     }
 
 
