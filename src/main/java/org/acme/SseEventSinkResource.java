@@ -12,7 +12,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.sse.Sse;
 import jakarta.ws.rs.sse.SseEventSink;
 import org.acme.dto.MessageInput;
-import org.eclipse.microprofile.context.ManagedExecutor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +25,6 @@ public class SseEventSinkResource {
 
     @Inject
     Sse sse;
-
-    @Inject
-    ManagedExecutor executor;
 
     private final Map<String, SseEventSink> clients = new ConcurrentHashMap<>();
 
