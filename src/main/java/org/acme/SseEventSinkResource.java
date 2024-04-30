@@ -3,9 +3,7 @@ package org.acme;
 import io.quarkus.logging.Log;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
-import io.quarkus.runtime.configuration.ConfigUtils;
 import io.quarkus.scheduler.Scheduled;
-import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -14,9 +12,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.sse.Sse;
 import jakarta.ws.rs.sse.SseEventSink;
 import org.acme.dto.MessageInput;
-import org.acme.services.HazelcastMapService;
 import org.acme.services.IMapService;
-import org.acme.services.MockMapService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,19 +26,9 @@ public class SseEventSinkResource {
     @Inject
     Sse sse;
 
+
     @Inject
     IMapService mapService;
-
-    @PostConstruct
-    public void init() {
-        if(ConfigUtils.isProfileActive("test") || ConfigUtils.isProfileActive("dev")){
-            Log.info("using mock service");
-            mapService = new MockMapService();
-        }else{
-            Log.info("using hazelcast service");
-            mapService = new HazelcastMapService();
-        }
-    }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -69,6 +55,7 @@ public class SseEventSinkResource {
     public Response sendMessage(MessageInput input) {
         String id = input.id();
         String message = input.message();
+
 
         SseEventSink eventSink = mapService.get(id);
         String responseMessage;
