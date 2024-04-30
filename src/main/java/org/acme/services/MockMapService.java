@@ -1,7 +1,7 @@
 package org.acme.services;
 
 
-import io.quarkus.arc.profile.IfBuildProfile;
+import io.quarkus.arc.DefaultBean;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.sse.SseEventSink;
 
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @ApplicationScoped
-@IfBuildProfile("test")
+@DefaultBean
 public class MockMapService implements IMapService {
 
     private final Map<String, SseEventSink> map =new ConcurrentHashMap<>();
