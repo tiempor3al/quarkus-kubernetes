@@ -13,12 +13,14 @@ import jakarta.ws.rs.sse.Sse;
 import jakarta.ws.rs.sse.SseEventSink;
 import org.acme.dto.MessageInput;
 import org.acme.services.IMapService;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Path("/sink")
 public class SseEventSinkResource {
+
 
     @Inject
     Template index;
@@ -29,6 +31,15 @@ public class SseEventSinkResource {
 
     @Inject
     IMapService mapService;
+
+
+    @Incoming("sse")
+    public void receiveMessage(String message){
+        Log.info("Received message");
+        Log.info(message);
+    }
+
+
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -81,7 +92,7 @@ public class SseEventSinkResource {
         return Response.ok(response).build();
     }
 
-    @Scheduled(every = "30s")
+    @Scheduled(every = "60s")
     void removeClosedConnections() {
         Log.info("removeClosedConnections");
         mapService.clean();
