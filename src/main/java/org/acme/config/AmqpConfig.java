@@ -16,7 +16,6 @@ public class AmqpConfig {
 
         Log.info("Using amqp options");
         return new AmqpClientOptions()
-                .setPort(61616)
                 .setHeartbeat(30);
     }
 }
