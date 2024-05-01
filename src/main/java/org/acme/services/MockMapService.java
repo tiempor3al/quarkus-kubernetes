@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @DefaultBean
 public class MockMapService implements IMapService {
 
-    private final Map<String, SseEventSink> map =new ConcurrentHashMap<>();
+    private final Map<String, SseEventSink> map = new ConcurrentHashMap<>();
 
     @Override
     public void put(String key, SseEventSink sseEventSink) {
@@ -21,13 +21,15 @@ public class MockMapService implements IMapService {
     }
 
     @Override
-    public SseEventSink get(String key){
+    public SseEventSink get(String key) {
         return map.get(key);
     }
 
     @Override
-    public void clean(){
-        map.entrySet().removeIf(entry -> entry.getValue().isClosed());
+    public void clean() {
+        if (!map.isEmpty()) {
+            map.entrySet().removeIf(entry -> entry.getValue().isClosed());
+        }
     }
 
 
