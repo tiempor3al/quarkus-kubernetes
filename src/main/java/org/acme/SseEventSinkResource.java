@@ -92,7 +92,7 @@ public class SseEventSinkResource {
         return Response.ok(response).build();
     }
 
-    @Scheduled(every = "60s")
+    @Scheduled(every = "120s")
     void removeClosedConnections() {
         Log.info("removeClosedConnections");
         mapService.clean();
