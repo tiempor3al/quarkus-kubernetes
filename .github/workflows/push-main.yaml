@@ -45,7 +45,7 @@ jobs:
           file: src/main/docker/Dockerfile.jvm
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ github.repository_owner }}/quarkus-kubernetes:v${{ steps.date_generator.outputs.date }},${{ github.repository_owner }}/quarkus-kubernetes:latest
+          tags: ${{ github.repository_owner }}/quarkus-kubernetes:${{ github.sha }},${{ github.repository_owner }}/quarkus-kubernetes:latest
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,7 +60,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1v${{ steps.date_generator.outputs.date }}|" quarkus-sse/app_stack.yaml
+          sed -i "s|\(image: ${{ github.repository_owner }}/quarkus-kubernetes:\).*|\1${{ github.sha }}|" quarkus-sse/app_stack.yaml
           git add .
-          git commit -m "Updated template to version: v${{ steps.date_generator.outputs.date }}"
+          git commit -m "Updated template to version: ${{ github.sha }}"
           git push 
