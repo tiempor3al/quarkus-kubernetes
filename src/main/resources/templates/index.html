@@ -12,7 +12,6 @@
 <script>
     const eventSource = new EventSource("{endpoint}");
     eventSource.onmessage = function(event) {
-
         document.getElementById("current-date").textContent = event.data;
     };
 </script>
