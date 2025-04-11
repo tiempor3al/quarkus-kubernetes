@@ -16,4 +16,14 @@ class TraceResourceTest {
 
     }
 
+
+    @Test
+    void testSimulateEndpoint() {
+        given()
+                .when().get("/trace/simulate")
+                .then()
+                .statusCode(200);
+
+    }
+
 }
