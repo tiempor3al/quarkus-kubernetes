@@ -23,7 +23,14 @@ class TraceResourceTest {
                 .when().get("/trace/simulate")
                 .then()
                 .statusCode(200);
+    }
 
+    @Test
+    void testBoomEndpoint() {
+        given()
+                .when().get("/trace/boom")
+                .then()
+                .statusCode(500);
     }
 
 }
