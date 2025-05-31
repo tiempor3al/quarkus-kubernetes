@@ -27,6 +27,12 @@ public class TraceResource {
         return "hello";
     }
 
+    @GET
+    @Path("/boom")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String boom() {
+        throw new RuntimeException("Boom! This endpoint intentionally throws an exception");
+    }
 
     @GET
     @Path("/simulate")
